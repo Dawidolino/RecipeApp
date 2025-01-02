@@ -1,0 +1,19 @@
+﻿@model RecipeApp.Models.Ingredient
+
+<h2>Dodaj nowy składnik</h2>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="IngredientName" class="control-label"></label>
+        <input asp-for="IngredientName" class="form-control" />
+        <span asp-validation-for="IngredientName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="IngredientDescription" class="control-label"></label>
+        <textarea asp-for="IngredientDescription" class="form-control"></textarea>
+        <span asp-validation-for="IngredientDescription" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+</form>
+
+<a asp-action="Index" class="btn btn-secondary">Powrót</a>

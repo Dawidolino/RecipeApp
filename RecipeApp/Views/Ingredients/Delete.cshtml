@@ -1,0 +1,17 @@
+﻿@model RecipeApp.Models.Ingredient
+
+<h2>Usuń składnik</h2>
+
+<div>
+    <h3>Czy na pewno chcesz usunąć ten składnik?</h3>
+    <div>
+        <strong>@Model.IngredientName</strong>
+        <p>@Model.IngredientDescription</p>
+    </div>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Usuń</button>
+        <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+    </form>
+</div>
