@@ -1,0 +1,19 @@
+﻿@model RecipeApp.Models.Recipe
+
+<h2>@Model.RecipeName</h2>
+
+<p><strong>Kategoria:</strong> @Model.RecipeCategory</p>
+<p><strong>Opis:</strong> @Model.RecipeDescription</p>
+<p><strong>Czas przygotowania:</strong> @Model.PrepTime minut</p>
+<p><strong>Instrukcje:</strong> @Model.Instructions</p>
+
+<h3>Składniki</h3>
+<ul>
+    @foreach (var recipeIngredient in Model.RecipeIngredients)
+    {
+        <li>@recipeIngredient.Ingredient.IngredientName - @recipeIngredient.Ingredient.IngredientDescription</li>
+    }
+</ul>
+
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edytuj</a>
+<a asp-action="Index" class="btn btn-secondary">Powrót</a>
