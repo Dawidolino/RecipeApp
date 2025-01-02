@@ -1,8 +1,32 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<RecipeApp.Models.Recipe>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>Lista przepisów</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nazwa przepisu</th>
+            <th>Kategoria</th>
+            <th>Czas przygotowania</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var recipe in Model)
+        {
+            <tr>
+                <td>@recipe.RecipeName</td>
+                <td>@recipe.RecipeCategory</td>
+                <td>@recipe.PrepTime minut</td>
+                <td>
+                    <a asp-action="Details" asp-controller="Recipes" asp-route-id="@recipe.Id" class="btn btn-info">Szczegóły</a>
+                    <a asp-action="Edit" asp-controller="Recipes" asp-route-id="@recipe.Id" class="btn btn-warning">Edytuj</a>
+                    <form asp-action="Delete" asp-controller="Recipes" asp-route-id="@recipe.Id" method="post" style="display:inline;" onsubmit="return confirm('Czy na pewno chcesz usunąć ten przepis?');">
+                        <button type="submit" class="btn btn-danger">Usuń</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="Create" asp-controller="Recipes" class="btn btn-primary">Dodaj nowy przepis</a>
