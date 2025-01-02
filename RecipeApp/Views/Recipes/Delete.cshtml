@@ -1,5 +1,16 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model RecipeApp.Models.Recipe
+
+<h2>Usuń przepis</h2>
+
+<p>Czy na pewno chcesz usunąć ten przepis?</p>
+<div>
+    <strong>@Model.RecipeName</strong>
+</div>
+<div>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Usuń</button>
+        @* <a asp-action="Index" class="btn btn-secondary">Anuluj</a> *@
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Anuluj</a>
+    </form>
+</div>

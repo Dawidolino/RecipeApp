@@ -1,5 +1,34 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model RecipeApp.Models.Recipe
+
+<h2>Edytuj przepis</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="RecipeName"></label>
+        <input asp-for="RecipeName" class="form-control" />
+        <span asp-validation-for="RecipeName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="RecipeDescription"></label>
+        <textarea asp-for="RecipeDescription" class="form-control"></textarea>
+        <span asp-validation-for="RecipeDescription" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="RecipeCategory"></label>
+        <input asp-for="RecipeCategory" class="form-control" />
+        <span asp-validation-for="RecipeCategory" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PrepTime"></label>
+        <input asp-for="PrepTime" type="number" class="form-control" />
+        <span asp-validation-for="PrepTime" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Instructions"></label>
+        <textarea asp-for="Instructions" class="form-control"></textarea>
+        <span asp-validation-for="Instructions" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Powrót</a>
+</form>

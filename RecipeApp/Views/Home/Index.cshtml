@@ -11,6 +11,7 @@
             <th>Akcje</th>
         </tr>
     </thead>
+    <a asp-action="Create" asp-controller="Recipes" class="btn btn-primary">Dodaj nowy przepis</a>
     <tbody>
         @foreach (var recipe in Model)
         {
@@ -29,4 +30,3 @@
         }
     </tbody>
 </table>
-<a asp-action="Create" asp-controller="Recipes" class="btn btn-primary">Dodaj nowy przepis</a>
