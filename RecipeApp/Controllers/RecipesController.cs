@@ -44,7 +44,7 @@ public class RecipesController : Controller
         {
             _context.Add(recipe);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index","Home");
         }
         return View(recipe);
     }
@@ -66,7 +66,7 @@ public class RecipesController : Controller
         {
             _context.Update(recipe);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Home");
         }
         return View(recipe);
     }
@@ -88,6 +88,6 @@ public class RecipesController : Controller
             _context.Recipes.Remove(recipe);
             await _context.SaveChangesAsync();
         }
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction("Index", "Home");
     }
 }
