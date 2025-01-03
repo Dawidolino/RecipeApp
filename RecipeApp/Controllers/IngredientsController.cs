@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using RecipeApp.Data;
 using RecipeApp.Models;
-
+//wyjazd z tym i robie liste kategorii i mozna sobie sprawdzic przypisane do tego przepisy i bedzie jakies zdjecie kategorii 
 public class IngredientsController : Controller
 {
     private readonly ApplicationDbContext _context;
