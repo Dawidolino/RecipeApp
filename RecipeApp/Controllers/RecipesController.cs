@@ -34,6 +34,7 @@ public class RecipesController : Controller
     public IActionResult Create()
     {     
         ViewBag.Categories = _context.Categories.ToList();
+        var recipe = new Recipe();
         return View();
     }
 

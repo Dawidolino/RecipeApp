@@ -16,7 +16,7 @@
 
     <div class="form-group">
         <label asp-for="RecipeCategory">Kategoria</label>
-        <select asp-for="RecipeCategory" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "Name", "Name", Model.RecipeCategory))">
+        <select asp-for="RecipeCategory" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "Name", "Name"))">
             <option value="">-- Wybierz kategorię --</option>
         </select>
 
