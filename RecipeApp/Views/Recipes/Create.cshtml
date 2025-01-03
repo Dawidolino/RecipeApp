@@ -28,6 +28,22 @@
         <input type="text" id="NewCategory" name="NewCategory" class="form-control" />
         <span class="text-danger"></span>
     </div>
+    <h3>Składniki</h3>
+    <div>
+        <label>Wybierz istniejące składniki</label>
+        @foreach (var ingredient in ViewBag.Ingredients as List<Ingredient>)
+        {
+            <div>
+                <input type="checkbox" id="ingredient_@ingredient.Id" name="selectedIngredientIds" value="@ingredient.Id" />
+                <label for="ingredient_@ingredient.Id">@ingredient.IngredientName</label>
+            </div>
+        }
+    </div>
+
+    <div>
+        <label>Dodaj nowe składniki (jeden wiersz = jeden składnik)</label>
+        <textarea name="newIngredients" class="form-control" rows="3"></textarea>
+    </div>
 
     <div class="form-group">
         <label asp-for="PrepTime"></label>
