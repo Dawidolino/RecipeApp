@@ -32,44 +32,98 @@ public class RecipesController : Controller
     }
 
     public IActionResult Create()
-    {
+    {     
+        ViewBag.Categories = _context.Categories.ToList();
         return View();
     }
 
+
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(Recipe recipe)
-    {
-        if (ModelState.IsValid)
-        {
-            _context.Add(recipe);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index","Home");
+    public async Task<IActionResult> Create(Recipe recipe, string NewCategory)
+    {       
+        if (string.IsNullOrEmpty(recipe.RecipeCategory) && string.IsNullOrEmpty(NewCategory))
+        {           
+            ModelState.AddModelError("RecipeCategory", "Wybierz kategorię lub wprowadź nową kategorię.");
+            ViewBag.Categories = await _context.Categories.ToListAsync();
+            return View(recipe);
         }
-        return View(recipe);
+
+        if (!string.IsNullOrEmpty(NewCategory))
+        {     
+            var existingCategory = await _context.Categories
+                .FirstOrDefaultAsync(c => c.Name == NewCategory);
+
+            if (existingCategory == null)
+            {
+                var category = new Category { Name = NewCategory };
+                _context.Categories.Add(category);
+                await _context.SaveChangesAsync();
+
+                recipe.RecipeCategory = category.Name;
+            }
+            else
+            {
+                recipe.RecipeCategory = existingCategory.Name;
+            }
+        }
+
+        _context.Add(recipe);
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Index", "Home");
     }
 
     public async Task<IActionResult> Edit(int id)
     {
-        var recipe = await _context.Recipes.FindAsync(id);
+        var recipe = await _context.Recipes
+            .Include(r => r.RecipeIngredients)
+                .ThenInclude(ri => ri.Ingredient)
+            .FirstOrDefaultAsync(r => r.Id == id);
+
         if (recipe == null) return NotFound();
+
+        ViewBag.Categories = await _context.Categories.ToListAsync();
         return View(recipe);
     }
-
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, Recipe recipe)
+    public async Task<IActionResult> Edit(int id, Recipe recipe, string NewCategory)
     {
-        if (id != recipe.Id) return NotFound();
-
-        if (ModelState.IsValid)
+        if (id != recipe.Id)
         {
-            _context.Update(recipe);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Home");
+            return NotFound();
         }
-        return View(recipe);
+        if (string.IsNullOrEmpty(recipe.RecipeCategory) && string.IsNullOrEmpty(NewCategory))
+        {
+            ModelState.AddModelError("RecipeCategory", "Wybierz kategorię lub wprowadź nową kategorię.");
+            ViewBag.Categories = await _context.Categories.ToListAsync();
+            return View(recipe);
+        }
+
+        if (!string.IsNullOrEmpty(NewCategory))
+        {
+            var existingCategory = await _context.Categories
+                .FirstOrDefaultAsync(c => c.Name == NewCategory);
+
+            if (existingCategory == null)
+            {
+                var category = new Category { Name = NewCategory };
+                _context.Categories.Add(category);
+                await _context.SaveChangesAsync();
+
+                recipe.RecipeCategory = category.Name;
+            }
+            else
+            {
+                recipe.RecipeCategory = existingCategory.Name;
+            }
+        }
+        _context.Update(recipe);
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("Index", "Home");
     }
+
 
     public async Task<IActionResult> Delete(int id)
     {
