@@ -13,11 +13,22 @@
         <textarea asp-for="RecipeDescription" class="form-control"></textarea>
         <span asp-validation-for="RecipeDescription" class="text-danger"></span>
     </div>
+
     <div class="form-group">
-        <label asp-for="RecipeCategory"></label>
-        <input asp-for="RecipeCategory" class="form-control" />
+        <label asp-for="RecipeCategory">Kategoria</label>
+        <select asp-for="RecipeCategory" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "Name", "Name", Model.RecipeCategory))">
+            <option value="">-- Wybierz kategorię --</option>
+        </select>
+
         <span asp-validation-for="RecipeCategory" class="text-danger"></span>
     </div>
+   
+    <div class="form-group">
+        <label for="NewCategory">Nowa kategoria (jeśli brak na liście)</label>
+        <input type="text" id="NewCategory" name="NewCategory" class="form-control" />
+        <span class="text-danger"></span>
+    </div>
+
     <div class="form-group">
         <label asp-for="PrepTime"></label>
         <input asp-for="PrepTime" type="number" class="form-control" />

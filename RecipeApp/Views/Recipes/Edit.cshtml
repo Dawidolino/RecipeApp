@@ -4,31 +4,44 @@
 
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="Id" />
+
     <div class="form-group">
         <label asp-for="RecipeName"></label>
         <input asp-for="RecipeName" class="form-control" />
         <span asp-validation-for="RecipeName" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <label asp-for="RecipeDescription"></label>
         <textarea asp-for="RecipeDescription" class="form-control"></textarea>
         <span asp-validation-for="RecipeDescription" class="text-danger"></span>
     </div>
+
     <div class="form-group">
-        <label asp-for="RecipeCategory"></label>
-        <input asp-for="RecipeCategory" class="form-control" />
+        <label asp-for="RecipeCategory">Kategoria</label>
+        <select asp-for="RecipeCategory" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "Name", "Name", Model.RecipeCategory))">
+            <option value="">-- Wybierz kategorię --</option>
+        </select>
         <span asp-validation-for="RecipeCategory" class="text-danger"></span>
     </div>
+
+    <div class="form-group">
+        <label for="NewCategory">Nowa kategoria (jeśli chcesz zmienić)</label>
+        <input type="text" id="NewCategory" name="NewCategory" class="form-control" placeholder="Wpisz nową kategorię" />
+    </div>
+
     <div class="form-group">
         <label asp-for="PrepTime"></label>
         <input asp-for="PrepTime" type="number" class="form-control" />
         <span asp-validation-for="PrepTime" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <label asp-for="Instructions"></label>
         <textarea asp-for="Instructions" class="form-control"></textarea>
         <span asp-validation-for="Instructions" class="text-danger"></span>
     </div>
+
     <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
     <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Powrót</a>
 </form>
