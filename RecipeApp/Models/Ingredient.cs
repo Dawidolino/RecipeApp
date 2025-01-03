@@ -10,7 +10,7 @@ namespace RecipeApp.Models
         [Required]
         public string IngredientName { get; set; }
         [StringLength(500,ErrorMessage ="Opis powinien zawierać maksymalnie 500 znaków")]
-        public string IngredientDescription { get; set; }
+        public string IngredientDescription { get; set; } = "Lorem Ipsum";
 
         //many to many
         public ICollection<RecipeIngredient> RecipeIngredients { get; set; } = new List<RecipeIngredient>();
