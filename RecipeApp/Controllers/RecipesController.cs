@@ -171,6 +171,7 @@ public class RecipesController : Controller
         ViewBag.Ingredients = await _context.Ingredients.ToListAsync();
         return View(recipe);
     }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, Recipe recipe, string NewCategory, List<int> selectedIngredientIds, List<string> newIngredients)
@@ -206,65 +207,7 @@ public class RecipesController : Controller
             }
         }
     
-
-        //foreach (var recipeIngredient in currentIngredients.ToList())
-        //{
-        //    if (selectedIngredientIds == null || !selectedIngredientIds.Contains(recipeIngredient.IngredientId))
-        //    {
-        //        _context.RecipeIngredients.Remove(recipeIngredient);
-        //    }
-        //}
-
-        ////add new ingredients from list
-        //if (selectedIngredientIds != null)
-        //{
-        //    foreach (var ingredientId in selectedIngredientIds)
-        //    {
-        //        var ingredient = await _context.Ingredients.FindAsync(ingredientId);
-        //        if (ingredient != null && !currentIngredients.Any(ri => ri.IngredientId == ingredient.Id))
-        //        {
-        //            recipe.RecipeIngredients.Add(new RecipeIngredient { IngredientId = ingredient.Id, RecipeId = recipe.Id });
-        //        }
-        //    }
-        //}
-        ////add new ingredients from textarea
-        //if (newIngredients != null)
-        //{
-        //    foreach (var ingredientName in newIngredients)
-        //    {
-        //        if (!string.IsNullOrWhiteSpace(ingredientName))
-        //        {
-        //            var existingIngredient = await _context.Ingredients
-        //                .FirstOrDefaultAsync(i => i.IngredientName == ingredientName);
-
-        //            if (existingIngredient == null)
-        //            {
-        //                var newIngredient = new Ingredient 
-        //                { 
-        //                    IngredientName = ingredientName, 
-        //                    IngredientDescription = "Lorem ipsum"
-        //                };
-        //                _context.Ingredients.Add(newIngredient);
-        //                await _context.SaveChangesAsync();
-
-        //                recipe.RecipeIngredients.Add(new RecipeIngredient { IngredientId = newIngredient.Id, RecipeId = recipe.Id });
-        //            }
-        //            else
-        //            {
-        //                recipe.RecipeIngredients.Add(new RecipeIngredient { IngredientId = existingIngredient.Id, RecipeId = recipe.Id });
-        //            }
-        //        }
-        //    }
-        //}
-
-
-        //var currentIngredients = await _context.RecipeIngredients
-        //.Where(ri => ri.RecipeId == recipe.Id)
-        //.ToListAsync();
-
-        //write code for editing ingredients in recipe inside this method
-      
-        // Remove deselected ingredients
+        //remove deselected ingredients
         var currentIngredients = await _context.RecipeIngredients
             .Where(ri => ri.RecipeId == recipe.Id)
             .ToListAsync();
@@ -286,25 +229,21 @@ public class RecipesController : Controller
                 var ingredient = await _context.Ingredients.FindAsync(ingredientId);
                 if (ingredient != null)
                 {
-                    // Check if the ingredient is already associated with the recipe
+                    //check if the ingredient is already associated with the recipe
                     var existingRecipeIngredient = await _context.RecipeIngredients
                         .FirstOrDefaultAsync(ri => ri.RecipeId == recipe.Id && ri.IngredientId == ingredient.Id);
 
                     if (existingRecipeIngredient == null)
                     {
-                        // New ingredient relationship, add it
                         recipe.RecipeIngredients.Add(new RecipeIngredient { Ingredient = ingredient });
                     }
                     else
                     {
-                        // Existing ingredient, attach it
                         _context.Attach(existingRecipeIngredient);
                     }
                 }
             }
         }
-
-        //da sie przypisac skladnik z textarea ale nie z listy
         //new ingredient from textarea
         if (newIngredients != null)
         {
@@ -312,7 +251,7 @@ public class RecipesController : Controller
             {
                 if (!string.IsNullOrWhiteSpace(ingredientName))
                 {
-                    // Check for existing ingredient first
+                    //check for existing ingredient
                     var existingIngredient = await _context.Ingredients
                         .FirstOrDefaultAsync(i => i.IngredientName == ingredientName);
 
@@ -323,7 +262,6 @@ public class RecipesController : Controller
                     }
                     else
                     {
-                        // Create new ingredient if it doesn't exist
                         var newIngredient = new Ingredient
                         {
                             IngredientName = ingredientName,
